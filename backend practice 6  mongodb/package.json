@@ -1,0 +1,19 @@
+{
+  "name": "backend-practice-6-mongodb",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.2.1",
+    "expresss": "^0.0.0",
+    "mongoose": "^9.0.1"
+  }
+}
