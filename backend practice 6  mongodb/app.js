@@ -1,7 +1,13 @@
-import express from "express";
-import User from "./usermodel.js"
+//  ES module type code ///
+
+import User from "./models/user.js"
 import ejs from "ejs"
-import path from "path"
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 
 const app = express();
@@ -9,11 +15,32 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(Path.join(__dirname,"public")))
+app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine",'ejs')
+
 
 app.get("/", (req, res) => {
     res.render("index")
+})
+
+app.get("/read",async (req, res) => {
+  let allUsers =  await User.find()
+    res.render("read", {User: allUsers})
+})
+
+app.get("/delete/:id",async (req, res) => {
+  let allUsers =  await User.findOneAndDelete({_id: req .params.id})
+    res.redirect("/read")
+})
+
+app.post("/create", async (req, res) => {
+  let {name , email , image} = req.body 
+let createdUser =  await User.create({
+    name,
+    email,
+    image
+  })
+  res.redirect("/read")
 })
 
 app.listen(3000,()=>{
