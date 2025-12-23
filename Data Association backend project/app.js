@@ -26,11 +26,29 @@ app.get('/login', (req, res) => {
 });
 
 
-app.get('/profile', isLoggedIn, (req, res) => {
-    console.log(req.user);
-    res.render('login');
+app.get('/profile', isLoggedIn, async (req, res) => {
+    let user = await userModel.findOne({ email: req.user.email }).populate('posts');
+    res.render('profile', { user });
 });
 
+
+app.get('/like/:id', isLoggedIn, async (req, res) => {
+    let post = await postModel.findOne({ _id: req.params.id }).populate('user');
+    post.likes.push(req.user.id);
+    await post.save();
+    res.redirect('/profile');
+});
+
+app.post('/post', isLoggedIn, async (req, res) => {
+    let user = await userModel.findOne({ email: req.user.email });
+    let { content } = req.body;
+   let post = await postModel.create({
+       user: user._id, 
+       content
+    })
+    user.posts.push(post._id);
+    await user.save();
+});
 
 app.post('/register', async (req, res) => {
     let { username, name, email, password, age, } = req.body;
@@ -66,11 +84,11 @@ app.post('/login', async (req, res) => {
         if (result) {
             let token = jwt.sign({ email: user.email, id: user._id }, 'secretkey');
             res.cookie('token', token);
-            res.status(200).send('Login successful');
+            res.status(200).redirect('/profile');
         } else {
                return res.redirect('/login');
         }
-
+            
 
     })
 });
@@ -82,7 +100,7 @@ app.get('/logout', (req, res) => {
 
 function isLoggedIn(req, res, next) {
     if (req.cookies.token === "") {
-        res.send("you must be logged in")
+        res.redirect("/login");
     } else {
         let data = jwt.verify(req.cookies.token, 'secretkey');
         req.user = data;
@@ -94,20 +112,6 @@ function isLoggedIn(req, res, next) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-app.listen(3000)
+app.listen(3000,()=>{
+    console.log("Server started at port 3000");
+});
