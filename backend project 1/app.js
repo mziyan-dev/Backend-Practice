@@ -6,6 +6,8 @@ import connection from "./config/mongoose-connection.js";
 import ownersRouter from "./routes/ownersRouter.js";
 import usersRouter from "./routes/usersRouter.js";
 import productsRouter from "./routes/productsRouter.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
@@ -24,6 +26,8 @@ app.set("view engine", "ejs");
 app.use("/owners",ownersRouter);
 app.use("/users",usersRouter);
 app.use("/products",productsRouter);
+
+
 
 app.listen(3000, () => {
     console.log("Server started on port 3000");
