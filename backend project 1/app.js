@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import cookieParser from "cookie-parser";
 import path from "path";
@@ -7,8 +9,6 @@ import ownersRouter from "./routes/ownersRouter.js";
 import usersRouter from "./routes/usersRouter.js";
 import productsRouter from "./routes/productsRouter.js";
 import flash from "connect-flash";
-import dotenv from "dotenv";
-dotenv.config();
 import expresssession from "express-session";
 
 const app = express();
@@ -17,18 +17,18 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(expresssession({
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.JWT_KEY,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
 }));
 app.use(flash());
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
+
 
 
 app.use("/owners",ownersRouter);

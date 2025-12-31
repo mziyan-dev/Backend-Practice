@@ -1,9 +1,9 @@
 import userModel from "../models/user-model.js";
 import bcrypt from "bcrypt";    
-import jwt from "jsonwebtoken";
 import generateToken from "../utils/genrateToken.js";
 
 
+   
 
 export async function registerUser(req, res) {
     try {
@@ -32,7 +32,6 @@ export async function registerUser(req, res) {
 
     }
 }
-
 export  async function loginUser(req, res) {
     try {
         let { email, password } = req.body;
@@ -53,9 +52,7 @@ export  async function loginUser(req, res) {
         res.send({ message: err.message });
     }
 }
-
-
 export function logoutUser(req, res) {
-    res.Cookie("token","");
+    res.clearCookie("token");
     res.send("Logged out successfully");
 }
