@@ -10,8 +10,24 @@ router.get("/",(req,res)=>{
 })
 
 router.post ("/create",upload.single("image"),async function(req,res){
-    product.create
- res.send("product created successfully");  
+   try{
+     let {name, price, discount, bgcolor, textcolor, panelcolor} = req.body;
+let userProduct = await product.create({
+    image : req.file.buffer,
+    name,
+    price,
+    discount,
+    bgcolor,
+    textcolor, 
+    panelcolor
+})
+
+ req.flash("success","Product created successfully");  
+ res.redirect("/owners/admin")
+   }catch(err){
+    res.send(err.message);
+   }
+ 
 
 });
 

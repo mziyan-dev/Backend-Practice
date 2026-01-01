@@ -23,9 +23,8 @@ let{fullname,email,password} = req.body;
   })  
 }
 router.get("/admin",async function(req,res){
- 
- res.send("owner admin dashboard");
-  res.render("createProduct");
+ let sucsess = req.flash("success");
+  res.render("createProduct", {sucsess});
 });
 
 export default router;

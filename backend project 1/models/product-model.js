@@ -2,7 +2,7 @@ import mongoose, { disconnect } from "mongoose";
 
 
 const productSchema = mongoose.Schema({
-    image : String,
+    image : Buffer,
     name : String,
     price : Number,
     discount : {
@@ -14,5 +14,5 @@ const productSchema = mongoose.Schema({
     textcolor : String 
 });
 
-const Product = mongoose.model("product", productSchema   );
-export default Product;
+const product = mongoose.model("product", productSchema   );
+export default product;

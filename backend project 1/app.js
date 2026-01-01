@@ -8,6 +8,7 @@ import connection from "./config/mongoose-connection.js";
 import ownersRouter from "./routes/ownersRouter.js";
 import usersRouter from "./routes/usersRouter.js";
 import productsRouter from "./routes/productsRouter.js";
+import indexRouter from "./routes/index.js";
 import flash from "connect-flash";
 import expresssession from "express-session";
 
@@ -30,7 +31,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 
 
-
+app.use("/", indexRouter);
 app.use("/owners",ownersRouter);
 app.use("/users",usersRouter);
 app.use("/products",productsRouter);
